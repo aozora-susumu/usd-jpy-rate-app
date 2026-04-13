@@ -28,7 +28,6 @@ export function RateCard() {
         const rate = await fetchExchangeRate(selectedPair.base, selectedPair.target)
         setRate(rate)
       } catch (error) {
-        console.error(error)
         setError(error instanceof Error ? error.message : 'Unknown error')
       } finally {
         setLoading(false)

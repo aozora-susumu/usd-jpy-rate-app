@@ -5,7 +5,6 @@ export async function fetchExchangeRate(baseCurrency: string, targetCurrency: st
   }
 
   const data = await res.json()
-  console.log('API Response:', data)
 
   const rate = data?.rates?.[targetCurrency]
   if (rate === undefined) {
