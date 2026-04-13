@@ -1,3 +1,17 @@
+.container {
+  width: min(100%, 1126px);
+  margin: 0 auto;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
 .button-container {
   margin-bottom: 20px;
 }

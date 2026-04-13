@@ -38,7 +38,7 @@ export function RateCard() {
   }, [selectedPair])
 
   return (
-    <div>
+    <div className='container'>
       <h1>為替レート</h1>
 
       <div className="button-container">
