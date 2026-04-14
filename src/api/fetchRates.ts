@@ -13,8 +13,3 @@ export async function fetchExchangeRate(baseCurrency: string, targetCurrency: st
 
   return rate
 }
-
-// 後方互換性のため
-export async function fetchUSDJPY() {
-  return fetchExchangeRate('USD', 'JPY')
-}
