@@ -21,19 +21,45 @@ export function RateCard() {
   const [selectedPair, setSelectedPair] = useState<CurrencyPair>(CURRENCY_PAIRS[0])
 
   useEffect(() => {
+    let isMounted = true
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000)
+
     async function loadRate() {
       try {
+        if (!isMounted) return
         setLoading(true)
         setError(null)
-        const rate = await fetchExchangeRate(selectedPair.base, selectedPair.target)
-        setRate(rate)
+        const rate = await fetchExchangeRate(selectedPair.base, selectedPair.target, controller.signal)
+        if (isMounted) {
+          setRate(rate)
+        }
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'Unknown error')
+        if (isMounted) {
+          if (error instanceof Error) {
+            if (error.name === 'AbortError') {
+              setError('リクエストがタイムアウトしました（10秒以上応答がありません）')
+            } else {
+              setError(error.message)
+            }
+          } else {
+            setError('Unknown error')
+          }
+        }
       } finally {
-        setLoading(false)
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
+
     loadRate()
+
+    return () => {
+      isMounted = false
+      clearTimeout(timeout)
+      controller.abort()
+    }
   }, [selectedPair])
 
   return (
